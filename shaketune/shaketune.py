@@ -11,7 +11,10 @@
 import importlib
 import os
 from pathlib import Path
-from typing_extensions import Callable
+if sys.version_info >= (3, 8):
+    from typing import Callable
+else:
+    from typing_extensions import Callable
 
 from .commands import (
     axes_shaper_calibration,

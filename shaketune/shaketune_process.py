@@ -13,7 +13,10 @@ import threading
 import traceback
 from multiprocessing import Process
 from pathlib import Path
-from typing_extensions import List, Optional, Union
+if sys.version_info >= (3, 8):
+    from typing import List, Optional, Union
+else:
+    from typing_extensions import List, Optional, Union
 
 from .helpers.accelerometer import MeasurementsManager
 from .helpers.console_output import ConsoleOutput
