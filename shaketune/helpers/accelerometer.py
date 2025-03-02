@@ -14,6 +14,7 @@
 import json
 import time
 import uuid
+import sys
 from io import TextIOWrapper
 from multiprocessing import Process, Queue, Value
 from pathlib import Path
