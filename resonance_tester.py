@@ -161,7 +161,8 @@ class ResonanceTestExecutor:
             dX, dY = axis.get_point(d)
             nX = X + dX
             nY = Y + dY
-            # toolhead.limit_next_junction_speed(abs_last_v)
+            if hasattr(toolhead, 'limit_next_junction_speed') and callable(toolhead.limit_next_junction_speed):
+                toolhead.limit_next_junction_speed(abs_last_v)
             if v * last_v < 0:
                 # The move first goes to a complete stop, then changes direction
                 d_decel = -last_v2 * half_inv_accel
