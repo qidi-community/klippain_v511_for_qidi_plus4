@@ -77,8 +77,10 @@ class ShaperGraphCreator(GraphCreator):
             return  # No need to delete any files
         for old_png_file in files[2 * keep_results :]:
             stdata_file = old_png_file.with_suffix('.stdata')
-            stdata_file.unlink(missing_ok=True)
-            old_png_file.unlink()
+            if stdata_file.exists():
+                stdata_file.unlink(missing_ok=True)
+            if old_png_file.exists():
+                old_png_file.unlink()
 
 
 class ShaperGraphComputation:

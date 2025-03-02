@@ -264,8 +264,8 @@ class ResonanceTestManager:
             dX, dY, dZ = self._project_distance(d, normalized_direction)
             nX, nY, nZ = X + dX, Y + dY, Z + dZ
 
-            if not self.is_old_klipper:
-                toolhead.limit_next_junction_speed(abs_last_v)
+#            if not self.is_old_klipper:
+#                toolhead.limit_next_junction_speed(abs_last_v)
 
             # If direction changed sign, must pass through zero velocity
             if v * last_v < 0:

@@ -14,7 +14,6 @@ First, you may want to read the **[input shaping and tuning generalities](./is_t
 
 | Shake&Tune command | Resulting graphs example |
 |:------|:-------:|
-|[`AXES_MAP_CALIBRATION`](./macros/axes_map_calibration.md)<br /><br />Verify that your accelerometer is working correctly and automatically find its Klipper's `axes_map` parameter | [<img src="./images/axesmap_example.png">](./macros/axes_map_calibration.md) |
 |[`COMPARE_BELTS_RESPONSES`](./macros/compare_belts_responses.md)<br /><br />Generate a differential belt resonance graph to verify relative belt tensions and belt path behaviors on a CoreXY or CoreXZ printer | [<img src="./images/belts_example.png">](./macros/compare_belts_responses.md) |
 |[`AXES_SHAPER_CALIBRATION`](./macros/axes_shaper_calibrations.md)<br /><br />Create the usual input shaper graphs to tune Klipper's input shaper filters and reduce ringing/ghosting | [<img src="./images/axis_example.png">](./macros/axes_shaper_calibrations.md) |
 |[`CREATE_VIBRATIONS_PROFILE`](./macros/create_vibrations_profile.md)<br /><br />Measure your global machine vibrations as a function of toolhead direction and speed to find problematic ranges where the printer could be exposed to more VFAs in order to optimize your slicer speed profiles and TMC drivers parameters | [<img src="./images/vibrations_example.png">](./macros/create_vibrations_profile.md) |

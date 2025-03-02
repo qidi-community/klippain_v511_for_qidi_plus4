@@ -17,7 +17,7 @@ import uuid
 from io import TextIOWrapper
 from multiprocessing import Process, Queue, Value
 from pathlib import Path
-from typing import List, Optional, Tuple, TypedDict
+from typing_extensions import List, Optional, Tuple, TypedDict
 
 import numpy as np
 from zstandard import FLUSH_FRAME, ZstdCompressor, ZstdDecompressor

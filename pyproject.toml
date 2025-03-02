@@ -16,7 +16,7 @@ Issues = "https://github.com/Frix-x/klippain-shaketune/issues"
 Changelog = "https://github.com/Frix-x/klippain-shaketune/releases"
 
 [tool.ruff]
-line-length = 120 # We all have modern screens now and I believe this should be brought in line with current technology
+line-length = 160 # We all have modern screens now and I believe this should be brought in line with current technology
 indent-width = 4
 target-version = "py39"
 

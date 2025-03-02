@@ -11,10 +11,9 @@
 import importlib
 import os
 from pathlib import Path
-from typing import Callable
+from typing_extensions import Callable
 
 from .commands import (
-    axes_map_calibration,
     axes_shaper_calibration,
     compare_belts_responses,
     create_vibrations_profile,
@@ -30,16 +29,12 @@ DEFAULT_NUMBER_OF_RESULTS = 10
 DEFAULT_KEEP_RAW_DATA = False
 DEFAULT_MAX_FREQ = 200.0
 DEFAULT_DPI = 150
-DEFAULT_TIMEOUT = 600
+DEFAULT_TIMEOUT = 2000
 DEFAULT_SHOW_MACROS = True
 DEFAULT_MEASUREMENTS_CHUNK_SIZE = 2  # Maximum number of measurements to keep in memory at once
 ST_COMMANDS = {
     'EXCITATE_AXIS_AT_FREQ': (
         'Maintain a specified excitation frequency for a period of time to diagnose and locate a source of vibrations'
-    ),
-    'AXES_MAP_CALIBRATION': (
-        'Perform a set of movements to measure the orientation of the accelerometer '
-        'and help you set the best axes_map configuration for your printer'
     ),
     'COMPARE_BELTS_RESPONSES': (
         'Perform a custom half-axis test to analyze and compare the '
@@ -92,7 +87,6 @@ class ShakeTune:
         gcode = self._printer.lookup_object('gcode')
         measurement_commands = [
             ('EXCITATE_AXIS_AT_FREQ', self.cmd_EXCITATE_AXIS_AT_FREQ, ST_COMMANDS['EXCITATE_AXIS_AT_FREQ']),
-            ('AXES_MAP_CALIBRATION', self.cmd_AXES_MAP_CALIBRATION, ST_COMMANDS['AXES_MAP_CALIBRATION']),
             ('COMPARE_BELTS_RESPONSES', self.cmd_COMPARE_BELTS_RESPONSES, ST_COMMANDS['COMPARE_BELTS_RESPONSES']),
             ('AXES_SHAPER_CALIBRATION', self.cmd_AXES_SHAPER_CALIBRATION, ST_COMMANDS['AXES_SHAPER_CALIBRATION']),
             ('CREATE_VIBRATIONS_PROFILE', self.cmd_CREATE_VIBRATIONS_PROFILE, ST_COMMANDS['CREATE_VIBRATIONS_PROFILE']),
@@ -168,9 +162,6 @@ class ShakeTune:
 
     def cmd_EXCITATE_AXIS_AT_FREQ(self, gcmd) -> None:
         self._cmd_helper(gcmd, 'static frequency', excitate_axis_at_freq)
-
-    def cmd_AXES_MAP_CALIBRATION(self, gcmd) -> None:
-        self._cmd_helper(gcmd, 'axes map', axes_map_calibration)
 
     def cmd_COMPARE_BELTS_RESPONSES(self, gcmd) -> None:
         self._cmd_helper(gcmd, 'belts comparison', compare_belts_responses)

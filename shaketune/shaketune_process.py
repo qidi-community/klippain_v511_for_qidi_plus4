@@ -13,7 +13,7 @@ import threading
 import traceback
 from multiprocessing import Process
 from pathlib import Path
-from typing import List, Optional, Union
+from typing_extensions import List, Optional, Union
 
 from .helpers.accelerometer import MeasurementsManager
 from .helpers.console_output import ConsoleOutput

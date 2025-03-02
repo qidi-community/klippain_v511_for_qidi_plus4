@@ -1,5 +1,7 @@
 # Klipper Shake&Tune plugin
 
+This is a dedicated port of the Klippain Shake&Tune v5.1.1 module for installation on the Qidi Plus4 3D Printer
+
 Shake&Tune is a Klipper plugin from the [Klippain](https://github.com/Frix-x/klippain) ecosystem, designed to create insightful visualizations to help you troubleshoot your mechanical problems and give you tools to better calibrate the input shaper filters on your 3D printer. It can be installed on any Klipper machine and is not limited to those using the full Klippain.
 
 Check out the **[detailed documentation here](./docs/README.md)**.
@@ -10,12 +12,18 @@ Check out the **[detailed documentation here](./docs/README.md)**.
 ## Installation
 
 Follow these steps to install Shake&Tune on your printer:
-  1. Be sure to have a working accelerometer on your machine and a `[resonance_tester]` section defined. You can follow the official [Measuring Resonances Klipper documentation](https://www.klipper3d.org/Measuring_Resonances.html) to configure it.
-  1. Install Shake&Tune by running over SSH on your printer:
-     ```bash
-     wget -O - https://raw.githubusercontent.com/Frix-x/klippain-shaketune/main/install.sh | bash
+  1. Very Important:
+
+     If you have an automated update section named `[update_manager Klippain-ShakeTune]` in your `moonraker.cfg` file, please delete it before proceeding
+  1. Install Shake&Tune on your Plus4 by running over SSH on your printer:
      ```
-  1. Then, append the following to your `printer.cfg` file and restart Klipper:
+     cd /home/mks
+     git clone https://github.com/qidi-community/klippain_v511_for_qidi_plus4.git
+     cd klippain_v511_for_qidi_plus4
+     ./install.sh
+
+     ```
+  1. Then, insert the following into your `printer.cfg` file BEFORE the `SAVE_CONFIG` section and restart Klipper:
      ```
      [shaketune]
      # result_folder: ~/printer_data/config/ShakeTune_results
@@ -57,4 +65,15 @@ Follow these steps to install Shake&Tune on your printer:
      #    without using too much RAM to generate them. Usually, you shouldn't need to change this value.
      ```
 
+## Documentation
+
 Don't forget to check out **[Shake&Tune documentation here](./docs/README.md)**.
+
+
+## Acknowledgement
+
+This repository is a fork modified and tailored for the Qidi Plus 4 3D Printer.
+
+It should be noted that all of Klippain-Shaketune is authored by Félix Boisselier <felix@fboisselier.fr>
+
+All acknowledgement and respect to Félix for his excellent work!

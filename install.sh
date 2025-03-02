@@ -6,7 +6,7 @@ KLIPPER_PATH="${HOME}/klipper"
 KLIPPER_VENV_PATH="${KLIPPER_VENV:-${HOME}/klippy-env}"
 
 OLD_K_SHAKETUNE_VENV="${HOME}/klippain_shaketune-env"
-K_SHAKETUNE_PATH="${HOME}/klippain_shaketune"
+K_SHAKETUNE_PATH="${HOME}/klippain_v511_for_qidi_plus4"
 
 set -eu
 export LC_ALL=C
@@ -28,6 +28,21 @@ function preflight_checks {
     else
         echo "[ERROR] Klipper service not found, please install Klipper first!"
         exit -1
+    fi
+
+    if [ ! -e resonance_tester.py ]; then
+	echo "[ERROR] Please run the install script from within the directory where the install script is located"
+	exit -1
+    fi
+
+    if [ ! -e shaper_calibrate.py ]; then
+	echo "[ERROR] Please run the install script from within the directory where the install script is located"
+	exit -1
+    fi
+
+    if [ ! -e install.sh ]; then
+	echo "[ERROR] Please run the install script from within the directory where the install script is located"
+	exit -1
     fi
 
     install_package_requirements
@@ -57,25 +72,6 @@ function install_package_requirements {
     fi
 }
 
-function check_download {
-    local shaketunedirname shaketunebasename
-    shaketunedirname="$(dirname ${K_SHAKETUNE_PATH})"
-    shaketunebasename="$(basename ${K_SHAKETUNE_PATH})"
-
-    if [ ! -d "${K_SHAKETUNE_PATH}" ]; then
-        echo "[DOWNLOAD] Downloading Klippain Shake&Tune module repository..."
-        if git -C $shaketunedirname clone https://github.com/Frix-x/klippain-shaketune.git $shaketunebasename; then
-            chmod +x ${K_SHAKETUNE_PATH}/install.sh
-            printf "[DOWNLOAD] Download complete!\n\n"
-        else
-            echo "[ERROR] Download of Klippain Shake&Tune module git repository failed!"
-            exit -1
-        fi
-    else
-        printf "[DOWNLOAD] Klippain Shake&Tune module repository already found locally. Continuing...\n\n"
-    fi
-}
-
 function setup_venv {
     if [ ! -d "${KLIPPER_VENV_PATH}" ]; then
         echo "[ERROR] Klipper's Python virtual environment not found!"
@@ -87,6 +83,7 @@ function setup_venv {
         rm -rf "${OLD_K_SHAKETUNE_VENV}"
     fi
 
+    declare -x PS1=""
     source "${KLIPPER_VENV_PATH}/bin/activate"
     echo "[SETUP] Installing/Updating K-Shake&Tune dependencies..."
     pip install --upgrade pip
@@ -112,32 +109,16 @@ function link_extension {
 }
 
 function link_module {
-    if [ ! -d "${KLIPPER_PATH}/klippy/extras/shaketune" ]; then
-        echo "[INSTALL] Linking Shake&Tune module to Klipper extras"
-        ln -frsn ${K_SHAKETUNE_PATH}/shaketune ${KLIPPER_PATH}/klippy/extras/shaketune
-    else
-        printf "[INSTALL] Klippain Shake&Tune Klipper module is already installed. Continuing...\n\n"
-    fi
+    echo "[INSTALL] Linking Shake&Tune module to Klipper extras"
+    ln -frsn ${K_SHAKETUNE_PATH}/shaketune ${KLIPPER_PATH}/klippy/extras/shaketune
 }
 
-function add_updater {
-    update_section=$(grep -c '\[update_manager[a-z ]* Klippain-ShakeTune\]' $MOONRAKER_CONFIG || true)
-    if [ "$update_section" -eq 0 ]; then
-        echo -n "[INSTALL] Adding update manager to moonraker.conf..."
-        cat <<EOF >>$MOONRAKER_CONFIG
-
-## Klippain Shake&Tune automatic update management
-[update_manager Klippain-ShakeTune]
-type: git_repo
-origin: https://github.com/Frix-x/klippain-shaketune.git
-path: ~/klippain_shaketune
-virtualenv: ${KLIPPER_VENV_PATH}
-requirements: requirements.txt
-system_dependencies: system-dependencies.json
-primary_branch: main
-managed_services: klipper
-EOF
-    fi
+function update_klipper {
+    DATE=$(date +"%Y%m%d%H%M%S")
+    mkdir -p ${K_SHAKETUNE_PATH}/backups
+    cp /home/mks/klipper/klippy/extras/resonance_tester.py ${K_SHAKETUNE_PATH}/backups/resonance_tester.py.$DATE
+    cp /home/mks/klipper/klippy/extras/shaper_calibrate.py ${K_SHAKETUNE_PATH}/backups/shaper_calibrate.py.$DATE
+    cp resonance_tester.py shaper_calibrate.py /home/mks/klipper/klippy/extras
 }
 
 function restart_klipper {
@@ -150,7 +131,6 @@ function restart_moonraker {
     sudo systemctl restart moonraker
 }
 
-
 printf "\n=============================================\n"
 echo "- Klippain Shake&Tune module install script -"
 printf "=============================================\n\n"
@@ -158,10 +138,9 @@ printf "=============================================\n\n"
 
 # Run steps
 preflight_checks
-check_download
 setup_venv
 link_extension
 link_module
-add_updater
+update_klipper
 restart_klipper
 restart_moonraker

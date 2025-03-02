@@ -48,7 +48,8 @@ class GraphCreator(abc.ABC):
 
         fig.savefig(f'{self._output_target.with_suffix(".png")}', dpi=self._config.dpi)
         if not self._config.keep_raw_data:
-            self._output_target.with_suffix('.stdata').unlink(missing_ok=True)
+            if self._output_target.with_suffix('.stdata').exists():
+                self._output_target.with_suffix('.stdata').unlink()
 
     def get_type(self) -> str:
         return self._type
@@ -72,5 +73,7 @@ class GraphCreator(abc.ABC):
             return  # No need to delete any files
         for old_png_file in files[keep_results:]:
             stdata_file = old_png_file.with_suffix('.stdata')
-            stdata_file.unlink(missing_ok=True)
-            old_png_file.unlink()
+            if stdata_file.exists():
+                stdata_file.unlink(missing_ok=True)
+            if old_png_file.exists():
+                old_png_file.unlink()
