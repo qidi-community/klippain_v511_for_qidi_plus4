@@ -109,6 +109,10 @@ function link_extension {
 }
 
 function link_module {
+    if [ -d "${KLIPPER_PATH}/klippy/extras/shaketune" ]; then
+        DATE=$(date +"%Y%m%d%H%M%S")
+	mv ${KLIPPER_PATH}/klippy/extras/shaketune ${K_SHAKETUNE_PATH}/backups/klippy.extras.shaketune.$DATE
+    fi
     echo "[INSTALL] Linking Shake&Tune module to Klipper extras"
     ln -frsn ${K_SHAKETUNE_PATH}/shaketune ${KLIPPER_PATH}/klippy/extras/shaketune
 }
