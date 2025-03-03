@@ -133,11 +133,10 @@ class ResonanceTestExecutor:
         systime = reactor.monotonic()
         toolhead_info = toolhead.get_status(systime)
         old_max_accel = toolhead_info['max_accel']
-        old_minimum_cruise_ratio = toolhead_info['minimum_cruise_ratio']
         max_accel = max([abs(a) for _, a, _ in test_seq])
         self.gcode.run_script_from_command(
-            "SET_VELOCITY_LIMIT ACCEL=%.3f MINIMUM_CRUISE_RATIO=0"
-            % (max_accel,))
+            "SET_VELOCITY_LIMIT ACCEL=%.3f"
+            % (max_accel))
         input_shaper = self.printer.lookup_object('input_shaper', None)
         if input_shaper is not None and not gcmd.get_int('INPUT_SHAPING', 0):
             input_shaper.disable_shaping()
@@ -187,8 +186,8 @@ class ResonanceTestExecutor:
             toolhead.move([X + decel_X, Y + decel_Y, Z, E], abs(last_v))
         # Restore the original acceleration values
         self.gcode.run_script_from_command(
-            "SET_VELOCITY_LIMIT ACCEL=%.3f MINIMUM_CRUISE_RATIO=%.3f"
-            % (old_max_accel, old_minimum_cruise_ratio))
+            "SET_VELOCITY_LIMIT ACCEL=%.3f"
+            % (old_max_accel))
         # Restore input shaper if it was disabled for resonance testing
         if input_shaper is not None:
             input_shaper.enable_shaping()
