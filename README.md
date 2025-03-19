@@ -16,6 +16,10 @@ Follow these steps to install Shake&Tune on your printer:
 
      If you have an automated update section named `[update_manager Klippain-ShakeTune]` in your `moonraker.cfg` file, please delete it before proceeding
   1. Install Shake&Tune on your Plus4 by running over SSH on your printer:
+     
+     **BE AWARE THAT THE FOLLOWING WILL RESTART YOUR PRINTER FIRMWARE.**
+
+     **ENSURE YOU DO NOT HAVE AN ACTIVE PRINT JOB RUNNING BEFORE PROCEEDING**
      ```
      cd /home/mks
      git clone https://github.com/qidi-community/klippain_v511_for_qidi_plus4.git
