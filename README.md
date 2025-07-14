@@ -15,12 +15,14 @@ Follow these steps to install Shake&Tune on your printer:
   1. Very Important:
 
      If you have an automated update section named `[update_manager Klippain-ShakeTune]` in your `moonraker.cfg` file, please delete it before proceeding
-  1. Update `apt` repositories, as debian Buster is now officially old and moved to "archive"
+  1. Update `apt` repositories, as debian Buster is now officially old and moved to "archive", disable security repo.
      ```
-     sudo sed -i -e '/security\.debian\.org/ s/^deb/#deb/g' -e 's!deb\ http\:\/\/deb\.!deb\ http\:\/\/archive\.!' /etc/apt/sources.list
+     sudo sed -i -e '/security\.debian\.org/ s/^deb/#deb/g' \
+       -e 's!deb\ http\:\/\/deb\.!deb\ http\:\/\/archive\.!' \
+       /etc/apt/sources.list
      ```
-     If you do not do this, you will see errors about repositories "no longer having Release files", and it will block you from progressing.
-     ![apt errors](./docs/images/generalities/apterror.png)
+     If you do not do this, you will see errors about repositories "no longer having Release files", and it will prevent you from progressing.
+     ![apt errors](./docs/images/generalities/apterror_001.png)
      
   1. Install Shake&Tune on your Plus4 by running over SSH on your printer:
      
