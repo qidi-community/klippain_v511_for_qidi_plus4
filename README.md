@@ -12,6 +12,12 @@ Check out the **[detailed documentation here](./docs/README.md)**.
 ## Installation
 
 Follow these steps to install Shake&Tune on your printer:
+  1. **Important Update 15th June 2025**
+      Debian Buster has recently moved its repositories.  Run the following command from the printer's SSH command shell to fix up the printer's repo references:
+
+     ```
+     sudo sed -i -e '/security\.debian\.org/ s/^deb/#deb/g' -e 's!deb\ http\:\/\/deb\.!deb\ http\:\/\/archive\.!' /etc/apt/sources.list
+     ```
   1. Very Important:
 
      If you have an automated update section named `[update_manager Klippain-ShakeTune]` in your `moonraker.cfg` file, please delete it before proceeding
